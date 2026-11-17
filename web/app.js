@@ -249,7 +249,7 @@ async function loadExampleManifest() {
   const counts = {};
   for (const sample of examples.samples) counts[sample.expected] = (counts[sample.expected] || 0) + 1;
   $('examples-text').textContent = `Try the classifier on ${examples.samples.length} example objects from the held-out test set (${
-    Object.entries(counts).map(([name, n]) => `${n} known ${name}`).join(', ')}), which were not used for training.`;
+    Object.entries(counts).map(([name, n]) => `${n} known ${name}`).join(', ')}), which were not used for training. They include a mistake you can correct in step 4.`;
   $('examples').hidden = false;
 }
 
