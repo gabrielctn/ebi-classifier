@@ -136,3 +136,16 @@ button:focus-visible, .button:focus-within, select:focus-visible, .tile:focus-vi
 footer { margin-top: 24px; color: var(--muted); font-size: 0.88rem; }
 [hidden] { display: none !important; }
 footer a { color: var(--accent); }
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border-radius: 8px;
+}
+.examples p { margin: 0; }
+.tile .known { color: #ffd27a; }

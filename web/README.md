@@ -32,6 +32,7 @@ Then open http://127.0.0.1:8765/ in Chrome, Edge, Firefox or Safari.
 | `vendor/` | onnxruntime-web 1.31.1 (MIT), unmodified, with checksums in `VERSION.txt` |
 | `serve.py` | Local test server |
 | `dev/` | Validation against PyTorch. Not needed on the hosted site |
+| `examples/` | Optional example triplets and `manifest.json`, shown as "Run the examples". Not stored in git; the box is hidden when the folder is absent |
 
 There is no build step and no other dependency. The page loads no fonts,
 scripts or analytics from third parties.

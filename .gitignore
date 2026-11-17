@@ -35,3 +35,6 @@ __pycache__/
 
 # Checksums of superseded packages
 /EBI_Classifier_*2026-11-03*
+
+# Example images are published on the website only, not in git
+/web/examples/

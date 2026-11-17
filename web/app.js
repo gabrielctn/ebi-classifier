@@ -12,6 +12,10 @@ let files = [];
 let running = false;
 let cancelled = false;
 let popUrl = null;
+// Known classes of the bundled example objects, by sample id. Cleared when the
+// user selects their own files.
+let examples = null;
+let knownClass = new Map();
 // Each result: {id, prob, url}. `selected` holds "group:id" keys.
 const results = { ebi: [], notEbi: [] };
 const selected = new Set();
@@ -51,8 +55,9 @@ function refreshFiles() {
   return groups;
 }
 
-function setFiles(list) {
+function setFiles(list, known = new Map()) {
   files = Array.from(list);
+  knownClass = known;
   refreshFiles();
 }
 
@@ -87,14 +92,22 @@ function renderGallery(group, container) {
     tile.type = 'button';
     tile.className = 'tile';
     tile.setAttribute('aria-pressed', String(selected.has(key)));
-    tile.title = `${item.id} (p = ${item.prob.toFixed(3)})`;
+    const known = knownClass.get(item.id);
+    tile.title = `${item.id} (p = ${item.prob.toFixed(3)})${known ? `, example known to be ${known}` : ''}`;
     const image = document.createElement('img');
     image.src = item.url;
     image.alt = '';
     image.loading = 'lazy';
     const label = document.createElement('span');
     label.textContent = `${item.id} · ${item.prob.toFixed(3)}`;
-    tile.append(image, label);
+    if (known) {
+      const tag = document.createElement('span');
+      tag.className = 'known';
+      tag.textContent = `known: ${known}`;
+      tile.append(image, label, tag);
+    } else {
+      tile.append(image, label);
+    }
     tile.addEventListener('click', () => {
       if (selected.has(key)) selected.delete(key); else selected.add(key);
       tile.setAttribute('aria-pressed', String(selected.has(key)));
@@ -204,6 +217,11 @@ async function run() {
   const seconds = ((performance.now() - started) / 1000).toFixed(1);
   let text = `${cancelled ? 'Stopped. ' : ''}${total} samples in ${seconds} s: ${results.ebi.length} EBI, ${results.notEbi.length} NOT EBI.`;
   if (failures.length) text += ` ${failures.length} could not be read.`;
+  if (knownClass.size) {
+    const all = [...results.ebi.map((r) => [r.id, 'EBI']), ...results.notEbi.map((r) => [r.id, 'NOT EBI'])];
+    const agree = all.filter(([id, group]) => knownClass.get(id) === group).length;
+    text += ` The classifier agrees with the known class for ${agree} of ${all.length} examples.`;
+  }
   setStatus($('run-status'), text, total ? 'ok' : 'bad');
   if (failures.length) {
     $('errors').hidden = false;
@@ -214,6 +232,54 @@ async function run() {
     }));
   }
   refreshFiles();
+}
+
+// --- Examples ------------------------------------------------------------------------
+
+// The examples are optional: the folder is published on the website but not
+// stored in git, so the box stays hidden when the manifest is missing.
+async function loadExampleManifest() {
+  try {
+    const response = await fetch(new URL('examples/manifest.json', import.meta.url));
+    if (!response.ok) return;
+    examples = await response.json();
+  } catch {
+    return;
+  }
+  const counts = {};
+  for (const sample of examples.samples) counts[sample.expected] = (counts[sample.expected] || 0) + 1;
+  $('examples-text').textContent = `Try the classifier on ${examples.samples.length} example objects from the held-out test set (${
+    Object.entries(counts).map(([name, n]) => `${n} known ${name}`).join(', ')}), which were not used for training.`;
+  $('examples').hidden = false;
+}
+
+async function runExamples() {
+  if (!examples || !classifier || running) return;
+  const button = $('load-examples');
+  button.disabled = true;
+  try {
+    const known = new Map();
+    const list = [];
+    for (const sample of examples.samples) {
+      known.set(sample.id, sample.expected);
+      for (const name of sample.files) {
+        const response = await fetch(new URL(`examples/${encodeURIComponent(name)}`, import.meta.url));
+        if (!response.ok) throw new Error(`${name} (${response.status})`);
+        list.push(new File([await response.blob()], name, { type: 'image/tiff' }));
+      }
+    }
+    // The examples use the training channels, whatever the user selected before.
+    for (const [name, select] of Object.entries(selects)) select.value = String(examples.channels[name]);
+    $('files').value = '';
+    $('folder').value = '';
+    setFiles(list, known);
+    await run();
+    $('h-run').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (error) {
+    setStatus($('file-summary'), `The examples could not be loaded: ${error.message}`, 'bad');
+  } finally {
+    button.disabled = false;
+  }
 }
 
 // --- Dropped folders ------------------------------------------------------------------
@@ -254,6 +320,8 @@ async function start() {
   selects.neutrophils.value = '3';
   $('files').addEventListener('change', (event) => setFiles(event.target.files));
   $('folder').addEventListener('change', (event) => setFiles(event.target.files));
+  $('load-examples').addEventListener('click', runExamples);
+  const manifest = loadExampleManifest();
   const drop = $('drop');
   drop.addEventListener('dragover', (event) => { event.preventDefault(); drop.classList.add('over'); });
   drop.addEventListener('dragleave', () => drop.classList.remove('over'));
@@ -283,6 +351,8 @@ async function start() {
     setStatus(status, `The model could not be loaded: ${error.message}`, 'bad');
   }
   progress.hidden = true;
+  await manifest;
+  $('load-examples').disabled = !classifier;
   refreshFiles();
 }
 
