@@ -333,3 +333,24 @@ export async function classifySample(classifier, sample, channelOrder) {
 export function popFileContent(ids) {
   return ids.map((id) => `${id},`).join('\n');
 }
+
+// CSV of the objects the user moved to the other group. It holds file names and
+// numbers only, no image data, and is meant to be sent back with the TIFF files
+// for retraining (see scripts/import_corrections.py).
+// Each item: {id, prob, predicted: 'ebi'|'notEbi', corrected: 'EBI'|'NOT EBI', files}.
+export function correctionsCsv(items, config) {
+  const quote = (value) => {
+    const text = String(value);
+    return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  };
+  const header = ['object_id', 'predicted_class', 'probability_ebi', 'corrected_class', 'files', 'model_sha256'];
+  const rows = items.map((item) => [
+    item.id,
+    item.predicted === 'ebi' ? 'EBI' : 'NOT EBI',
+    item.prob.toFixed(4),
+    item.corrected,
+    item.files.join(';'),
+    config.onnx_sha256 || '',
+  ]);
+  return [header, ...rows].map((row) => row.map(quote).join(',')).join('\r\n') + '\r\n';
+}

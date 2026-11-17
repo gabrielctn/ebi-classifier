@@ -78,6 +78,15 @@ PyTorch for every sample, with a largest probability difference of 5e-6.
 
 Repeat this whenever the model, `ebi-core.js` or onnxruntime-web changes.
 
+## Corrections
+
+After a run, users can move misclassified objects to the other group and
+download `EBI_corrections.csv`: the object IDs, the model's prediction and
+probability, the corrected class, the file names and the model checksum. The
+file holds no image data and is created in the browser. To turn returned
+corrections into training data, see "Adding corrections from users" in the
+main [README](../README.md) and `scripts/import_corrections.py`.
+
 ## Differences from the desktop application
 
 - Reads uncompressed, single-channel TIFF files (8, 16 or 32-bit), which is what

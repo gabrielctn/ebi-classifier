@@ -1,4 +1,6 @@
-import { classifySample, groupFiles, isTiff, loadClassifier, popFileContent } from './ebi-core.js';
+import {
+  classifySample, correctionsCsv, groupFiles, isTiff, loadClassifier, popFileContent,
+} from './ebi-core.js';
 
 const $ = (id) => document.getElementById(id);
 const selects = {
@@ -12,11 +14,14 @@ let files = [];
 let running = false;
 let cancelled = false;
 let popUrl = null;
+let correctionsUrl = null;
 // Known classes of the bundled example objects, by sample id. Cleared when the
 // user selects their own files.
 let examples = null;
 let knownClass = new Map();
-// Each result: {id, prob, url}. `selected` holds "group:id" keys.
+// Each result: {id, prob, url, predicted, files}. `predicted` is the group the
+// model chose ('ebi' or 'notEbi'); `files` are the file names of the triplet.
+// `selected` holds "group:id" keys.
 const results = { ebi: [], notEbi: [] };
 const selected = new Set();
 
@@ -142,6 +147,22 @@ function renderResults() {
   if (popUrl) URL.revokeObjectURL(popUrl);
   popUrl = URL.createObjectURL(new Blob([popFileContent(results.ebi.map((r) => r.id))], { type: 'text/plain' }));
   $('download').href = popUrl;
+
+  // Objects the user moved to the other group, for retraining the model.
+  const corrections = [
+    ...results.ebi.filter((r) => r.predicted !== 'ebi').map((r) => ({ ...r, corrected: 'EBI' })),
+    ...results.notEbi.filter((r) => r.predicted !== 'notEbi').map((r) => ({ ...r, corrected: 'NOT EBI' })),
+  ];
+  if (correctionsUrl) URL.revokeObjectURL(correctionsUrl);
+  correctionsUrl = null;
+  if (corrections.length) {
+    correctionsUrl = URL.createObjectURL(new Blob([correctionsCsv(corrections, classifier.config)], { type: 'text/csv' }));
+    $('download-corrections').href = correctionsUrl;
+  }
+  $('download-corrections').hidden = !corrections.length;
+  $('corrections-info').textContent = corrections.length
+    ? `${corrections.length} object${corrections.length > 1 ? 's' : ''} corrected.`
+    : 'No corrections yet.';
   const total = results.ebi.length + results.notEbi.length;
   $('download').hidden = !total;
   $('review').hidden = !total;
@@ -193,7 +214,9 @@ async function run() {
     try {
       const result = await classifySample(classifier, sample, order);
       const url = thumbnailUrl(result.input, size);
-      results[result.isEbi ? 'ebi' : 'notEbi'].push({ id: result.id, prob: result.prob, url });
+      const group = result.isEbi ? 'ebi' : 'notEbi';
+      const names = order.map((channel) => sample.files[channel].name);
+      results[group].push({ id: result.id, prob: result.prob, url, predicted: group, files: names });
     } catch (error) {
       failures.push(error.message);
     }

@@ -66,6 +66,12 @@
       <span id="selection-info" class="status">Nothing selected.</span>
       <button id="clear-selection">Clear selection</button>
     </div>
+    <div class="corrections">
+      <p><strong>Help improve the model.</strong> <span id="corrections-info">No corrections yet.</span>
+        The list of objects you moved can be sent back to us, with their TIFF files, to retrain the model.
+        It contains file names and probabilities only, no images.</p>
+      <a id="download-corrections" class="button" hidden download="EBI_corrections.csv">Download corrections (.csv)</a>
+    </div>
     <div class="columns">
       <div>
         <h3>EBI <span id="count-ebi" class="count"></span></h3>

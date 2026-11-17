@@ -91,7 +91,7 @@ button, .button {
 }
 button:hover:not(:disabled), .button:hover { border-color: var(--accent); }
 button:disabled { opacity: 0.5; cursor: default; }
-button.primary, a.button {
+button.primary, a#download {
   color: var(--accent-text);
   background: var(--accent);
   border-color: var(--accent);
@@ -136,7 +136,7 @@ button:focus-visible, .button:focus-within, select:focus-visible, .tile:focus-vi
 footer { margin-top: 24px; color: var(--muted); font-size: 0.88rem; }
 [hidden] { display: none !important; }
 footer a { color: var(--accent); }
-.examples {
+.examples, .corrections {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 16px;
@@ -147,5 +147,5 @@ footer a { color: var(--accent); }
   background: var(--bg);
   border-radius: 8px;
 }
-.examples p { margin: 0; }
+.examples p, .corrections p { margin: 0; }
 .tile .known { color: #ffd27a; }

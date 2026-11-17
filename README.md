@@ -229,6 +229,39 @@ python train.py \
   --tensorboard
 ```
 
+#### 4. Adding corrections from users
+
+In the browser version, users who disagree with a prediction move the object
+to the other group in step 4 and click **Download corrections (.csv)**. The
+file lists each moved object with the model's prediction, its probability, the
+corrected class and the three file names. It contains no images.
+
+To use a batch of corrections for retraining:
+
+1. Ask for `EBI_corrections.csv` and the TIFF files it names, in one folder.
+2. Add them to the training folders. Give every batch its own prefix, because
+   ImageStream object IDs restart at zero in each acquisition:
+
+   ```bash
+   python scripts/import_corrections.py EBI_corrections.csv \
+       --images /path/to/received --prefix lab2-2026-11 --dry-run
+   python scripts/import_corrections.py EBI_corrections.csv \
+       --images /path/to/received --prefix lab2-2026-11
+   ```
+
+3. Retrain with `train.py`. Compare the new model with the current one on
+   `EBI_TEST_SET/` and `NOT_EBI_TEST_SET/`: it should do better on the corrected
+   cases without getting worse elsewhere.
+4. Export it with `scripts/export_onnx.py --reference`, validate it in the
+   browser (`web/dev/validate.html`), rebuild the packages and publish a new
+   Zenodo version.
+
+A few corrected objects rarely change the model much. Collect several dozen
+examples of the same kind of mistake (for example dead or shrunken macrophages
+counted as EBI) before retraining. Do not import objects that are in the test
+sets, including the website examples, or the test results stop being
+independent.
+
 ### Monitoring
 
 ```bash
