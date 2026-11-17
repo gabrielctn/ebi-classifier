@@ -1,0 +1,10 @@
+torch==2.11.0
+torchvision==0.26.0
+timm
+gradio>=6.32.0
+tifffile
+numpy
+pillow>=13.0.0
+brotli>=1.2.1
+certifi>=2026.10.23
+filelock>=4.2.7

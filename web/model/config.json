@@ -1,0 +1,15 @@
+{
+  "model": "convnextv2_tiny.fcmae_ft_in22k_in1k",
+  "image_size": 224,
+  "intensity_norm": "percentile",
+  "percentile_low": 1.0,
+  "percentile_high": 99.0,
+  "threshold": 0.67,
+  "default_channels": {
+    "erythroblasts": 7,
+    "macrophages": 11,
+    "neutrophils": 3
+  },
+  "onnx_sha256": "5d5e0b4b3d477bc843201990b3ef1c29ca8e8d4237dcdc5da57298686fddc9f1",
+  "source_checkpoint_sha256": "a8ef8b03a9b7c740b4323b894d2c604c8a4a02a18b5f44f3f9670d469911716e"
+}

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=EBI Classifier
+Comment=Classify ImageStream images locally
+Exec=/bin/bash -c "exec /bin/bash \\"\\$(dirname \\"\\$1\\")/START_EBI.sh\\"" ebi %k
+Terminal=true
+Categories=Science;Education;

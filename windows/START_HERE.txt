@@ -1,0 +1,92 @@
+EBI CLASSIFIER FOR WINDOWS - START HERE
+=======================================
+
+1. Right-click the ZIP you received and choose "Extract All". Extract it to
+   a writable folder on your computer, such as Documents. Do not run the app
+   from inside the ZIP.
+2. Open the extracted EBI_Classifier_Windows folder and double-click
+   START_EBI.bat (Windows may show it as START_EBI).
+3. Keep the black window open. The first start prepares the app and can take
+   several minutes. Your browser should open automatically. If it does not,
+   open the local address shown in the black window.
+4. When you are finished, close the black window to stop the app.
+
+You will need 64-bit Windows 10 or 11 on an Intel/AMD PC, a browser, and
+about 3 GB of free disk space. The app runs on the CPU. Python, the model,
+and the packages are included; no internet connection is needed for the
+normal setup or classification. Some PCs may need Microsoft's Visual C++
+Runtime; see Troubleshooting below.
+
+HOW TO CLASSIFY
+---------------
+For each sample, provide three separate TIFF files with the same sample ID
+and a channel number in each filename. With the default channel mapping:
+
+    sample001_Ch7.ome.tif   - erythroblasts
+    sample001_Ch11.ome.tif  - macrophages
+    sample001_Ch3.ome.tif   - neutrophils
+
+1. In Channel Mapping, check the three channel numbers match your experiment.
+   Choose three different channels. Change them if your experiment uses
+   different channel numbers for these cell types.
+2. Drag all three TIFF files for each sample into "Upload TIFF files".
+3. Click "Run Classification" and wait for the results.
+4. Check the number of processed samples against the number you submitted.
+   Incomplete triplets are skipped. If no complete triplets are found, check
+   the filenames and selected channels.
+5. Click "View Prediction Details" to inspect the predicted groups. You can
+   select images and move them between the EBI and NOT_EBI groups.
+6. Download "EBI IDs (.pop)" after reviewing. It contains the sample IDs
+   currently in the EBI group, one per line. If none are in EBI, it is empty.
+   Save it somewhere you can find it, such as Downloads.
+
+Predictions are a research aid: inspect the results and check that the model
+is suitable for your experiment. The probability shown is the model score.
+The app runs on your PC; the browser interface uses a local address.
+
+TROUBLESHOOTING
+---------------
+- A window reports missing files: extract the entire ZIP again, and keep all
+  of the extracted files and folders together. Do not move the launcher alone.
+- The browser did not open: copy the local address printed in the black window
+  into your browser. Keep the black window open. A different port may be used
+  if 7860 is already taken.
+- Setup failed: check that the extracted folder is writable and has enough
+  free disk space. Close the window, then double-click START_EBI.bat again.
+- A message mentions a missing DLL, MSVCP140, or Visual C++ Runtime: ask your
+  IT support to install Microsoft's latest Visual C++ Redistributable for x64:
+  https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist/
+  This extra step may require internet access and administrator permission.
+- A security warning or IT policy blocks the app: contact the sender or your
+  IT team before running it.
+- If a problem remains, send the person who provided the app a photo of the
+  entire black window and your Windows version. Leave the window open so the
+  error message is visible.
+
+---------------------------------------------------------------
+CLASSIFICATEUR EBI POUR WINDOWS - DEMARRAGE RAPIDE
+---------------------------------------------------------------
+
+1. Faites un clic droit sur le fichier ZIP et choisissez "Extraire tout".
+   Extrayez-le dans un dossier modifiable, par exemple Documents. Ne lancez
+   pas l'application depuis l'interieur du ZIP.
+2. Ouvrez le dossier EBI_Classifier_Windows extrait et double-cliquez sur
+   START_EBI.bat (Windows peut l'afficher sous le nom START_EBI).
+3. Gardez la fenetre noire ouverte. Le premier lancement prepare l'application
+   et peut prendre plusieurs minutes. Le navigateur devrait s'ouvrir. Sinon,
+   ouvrez l'adresse locale affichee dans la fenetre noire.
+4. Pour quitter, fermez la fenetre noire.
+
+Windows 10 ou 11 64 bits sur PC Intel/AMD, un navigateur et environ 3 Go
+libres sont necessaires. Python, le modele et les dependances sont inclus.
+En temps normal, aucune connexion internet n'est necessaire. Certains PC
+peuvent necessiter le runtime Visual C++ de Microsoft (voir ci-dessus).
+
+Pour chaque echantillon, deposez trois fichiers TIFF ayant le meme identifiant
+et un numero de canal dans chaque nom. Les valeurs par defaut sont Ch7 pour
+les erythroblastes, Ch11 pour les macrophages et Ch3 pour les neutrophiles.
+Verifiez et adaptez ces trois numeros dans "Channel Mapping", puis cliquez sur
+"Run Classification". Comparez le nombre d'echantillons traites au nombre
+attendu : les triplets incomplets sont ignores. Verifiez les resultats dans
+"View Prediction Details", puis telechargez le fichier .pop des identifiants
+EBI. Fermez la fenetre noire pour quitter. L'outil est une aide a la recherche.

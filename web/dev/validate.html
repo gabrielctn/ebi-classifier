@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EBI browser pipeline validation</title>
+<style>
+  body { font: 15px/1.5 system-ui, sans-serif; margin: 2rem; max-width: 60rem; }
+  pre { background: #f3f3f3; padding: 1rem; overflow: auto; }
+</style>
+</head>
+<body>
+<h1>Browser pipeline validation</h1>
+<p>Compares the browser's predictions with the PyTorch reference values in
+<code>reference.json</code>. Serve the project root
+(<code>python3 web/serve.py --root .</code>) and open
+<code>/web/dev/validate.html</code>. Add <code>?limit=20</code> for a quick run.</p>
+<pre id="log">Starting…</pre>
+<script src="../vendor/ort.wasm.min.js"></script>
+<script type="module" src="validate.js"></script>
+</body>
+</html>

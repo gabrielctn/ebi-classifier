@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The page may only load its own files and may not contact any other server. -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>EBI Classifier</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>EBI Classifier</h1>
+  <p class="lead">Classify ImageStream TIFF triplets as erythroblastic islands (EBI) and download the EBI object IDs as a <code>.pop</code> file.</p>
+  <p class="privacy"><strong>Your images stay on this computer.</strong> They are read and analysed inside this browser tab and are never uploaded.</p>
+  <p id="model-status" class="status" role="status">Loading the model…</p>
+  <progress id="model-progress" max="1" value="0"></progress>
+</header>
+
+<main>
+  <section class="panel" aria-labelledby="h-channels">
+    <h2 id="h-channels">1. Channels</h2>
+    <p class="hint">Which ImageStream channel contains each cell type in your files?</p>
+    <div class="channels">
+      <label>Erythroblasts <select id="ch-erythroblasts"></select></label>
+      <label>Macrophages <select id="ch-macrophages"></select></label>
+      <label>Neutrophils <select id="ch-neutrophils"></select></label>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-files">
+    <h2 id="h-files">2. Images</h2>
+    <p class="hint">File names must look like <code>12345_Ch7.ome.tif</code>: object ID, then the channel number.</p>
+    <div id="drop" class="drop">
+      <p>Drop TIFF files or a folder here, or</p>
+      <div class="buttons">
+        <label class="button">Choose files<input id="files" type="file" multiple accept=".tif,.tiff" hidden></label>
+        <label class="button">Choose a folder<input id="folder" type="file" webkitdirectory hidden></label>
+      </div>
+      <p id="file-summary" class="status">No images selected.</p>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-run">
+    <h2 id="h-run">3. Classify</h2>
+    <div class="buttons">
+      <button id="run" class="primary" disabled>Run classification</button>
+      <button id="cancel" hidden>Stop</button>
+      <a id="download" class="button" hidden download="EBI_population_ids.pop">Download EBI IDs (.pop)</a>
+    </div>
+    <progress id="run-progress" max="1" value="0" hidden></progress>
+    <p id="run-status" class="status" role="status"></p>
+    <ul id="errors" class="errors" hidden></ul>
+  </section>
+
+  <section class="panel" id="review" hidden aria-labelledby="h-review">
+    <h2 id="h-review">4. Review</h2>
+    <p class="hint">Click images to select them, then move them to the other group. The <code>.pop</code> file follows your corrections.</p>
+    <div class="buttons">
+      <span id="selection-info" class="status">Nothing selected.</span>
+      <button id="clear-selection">Clear selection</button>
+    </div>
+    <div class="columns">
+      <div>
+        <h3>EBI <span id="count-ebi" class="count"></span></h3>
+        <button id="move-to-not-ebi">Move selected to NOT EBI</button>
+        <div id="gallery-ebi" class="gallery"></div>
+      </div>
+      <div>
+        <h3>NOT EBI <span id="count-not-ebi" class="count"></span></h3>
+        <button id="move-to-ebi">Move selected to EBI</button>
+        <div id="gallery-not-ebi" class="gallery"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Research tool. Not validated for clinical use. Image colours: red erythroblasts, green macrophages, blue neutrophils.</p>
+  <p>Gabriel Cretin, DSIMB, INSERM U1134, Université Paris Cité. Cite as <a href="https://doi.org/10.5281/zenodo.24324392" rel="noopener">doi:10.5281/zenodo.24324392</a>. Source code (MIT) on <a href="https://github.com/gabrielctn/ebi-classifier" rel="noopener">GitHub</a>; model weights CC BY-NC 4.0.</p>
+</footer>
+
+<script src="vendor/ort.wasm.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

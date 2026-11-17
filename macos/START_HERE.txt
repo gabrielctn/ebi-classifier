@@ -1,0 +1,89 @@
+EBI CLASSIFIER FOR MAC - START HERE
+===================================
+
+1. Double-click the ZIP you received to extract it. Move the extracted
+   EBI_Classifier_Mac folder to a writable location, such as Documents.
+   Keep all its files and folders together.
+2. Open EBI_Classifier_Mac and double-click START_EBI.command.
+3. Keep the Terminal window open. The first start prepares the app and can
+   take several minutes. Your browser should open automatically. If it does
+   not, open the local address shown in the Terminal window.
+4. When you are finished, close the Terminal window to stop the app.
+
+The package supports Intel and Apple Silicon Macs running macOS 13 Ventura
+or later. You need a browser and about 3 GB of free disk space. The right
+version is selected automatically. Python, the model, and the packages are
+included; normal setup and classification do not need an internet connection.
+
+HOW TO CLASSIFY
+---------------
+For each sample, provide three separate TIFF files with the same sample ID
+and a channel number in each filename. With the default channel mapping:
+
+    sample001_Ch7.ome.tif   - erythroblasts
+    sample001_Ch11.ome.tif  - macrophages
+    sample001_Ch3.ome.tif   - neutrophils
+
+1. In Channel Mapping, check the three channel numbers match your experiment.
+   Choose three different channels. Change them if your experiment uses
+   different channel numbers for these cell types.
+2. Drag all three TIFF files for each sample into "Upload TIFF files".
+3. Click "Run Classification" and wait for the results.
+4. Check the number of processed samples against the number you submitted.
+   Incomplete triplets are skipped. If no complete triplets are found, check
+   the filenames and selected channels.
+5. Click "View Prediction Details" to inspect the predicted groups. You can
+   select images and move them between the EBI and NOT_EBI groups.
+6. Download "EBI IDs (.pop)" after reviewing. It contains the sample IDs
+   currently in the EBI group, one per line. If none are in EBI, it is empty.
+   Save it somewhere you can find it, such as Downloads.
+
+Predictions are a research aid: inspect the results and check that the model
+is suitable for your experiment. The probability shown is the model score.
+The app runs on your Mac; the browser interface uses a local address.
+
+TROUBLESHOOTING
+---------------
+- If macOS blocks the app because its developer cannot be verified, first
+  make sure you received it from someone you trust and the file is intact.
+  After trying to open it, open System Settings > Privacy & Security, scroll
+  down to the security message, and choose "Open Anyway" if available.
+  Apple explains this at https://support.apple.com/en-us/102445 . If your
+  organisation manages the Mac or the button is unavailable, contact IT.
+- A window reports missing files: extract the complete ZIP again, and keep
+  all the extracted files and folders together. Do not move the launcher alone.
+- The browser did not open: copy the local address printed in Terminal into
+  your browser. Keep Terminal open. The port can differ if 7860 is in use.
+- Setup failed: check that the extracted folder is writable and has enough
+  free disk space. Close the window, then double-click START_EBI.command again.
+- If a problem remains, send the person who provided the app a photo of the
+  whole Terminal window and your macOS version (Apple menu > About This Mac).
+  Leave the window open so the error message is visible.
+
+---------------------------------------------------------------
+CLASSIFICATEUR EBI POUR MAC - DEMARRAGE RAPIDE
+---------------------------------------------------------------
+
+1. Double-cliquez sur le fichier ZIP pour l'extraire. Placez le dossier
+   EBI_Classifier_Mac extrait dans un emplacement modifiable, par exemple
+   Documents. Gardez tous les fichiers et dossiers ensemble.
+2. Ouvrez ce dossier et double-cliquez sur START_EBI.command.
+3. Gardez la fenetre Terminal ouverte. Le premier demarrage peut prendre
+   plusieurs minutes. Le navigateur devrait s'ouvrir automatiquement ; sinon,
+   ouvrez l'adresse locale affichee dans Terminal.
+4. Pour quitter, fermez la fenetre Terminal.
+
+L'application fonctionne sur Mac Intel ou Apple Silicon avec macOS 13 Ventura
+ou plus recent. Un navigateur et environ 3 Go libres sont necessaires. Python,
+le modele et les dependances sont inclus. Aucune connexion internet n'est
+necessaire en temps normal. Si macOS bloque l'ouverture, consultez la rubrique
+TROUBLESHOOTING ci-dessus ou contactez votre service informatique.
+
+Pour chaque echantillon, deposez trois fichiers TIFF ayant le meme identifiant
+et un numero de canal dans chaque nom. Les valeurs par defaut sont Ch7 pour
+les erythroblastes, Ch11 pour les macrophages et Ch3 pour les neutrophiles.
+Verifiez et adaptez ces trois numeros dans "Channel Mapping", puis cliquez sur
+"Run Classification". Comparez le nombre d'echantillons traites au nombre
+attendu : les triplets incomplets sont ignores. Verifiez les resultats dans
+"View Prediction Details", puis telechargez le fichier .pop des identifiants
+EBI. Fermez la fenetre Terminal pour quitter. L'outil est une aide a la recherche.

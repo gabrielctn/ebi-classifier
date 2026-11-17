@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software or its trained model, please cite it as below."
+type: software
+title: "EBI Classifier: deep learning for erythroblastic island detection in imaging flow cytometry"
+version: 1.0.0
+date-released: 2026-11-17
+doi: 10.5281/zenodo.24324392
+url: "https://dsimb.inserm.fr/EBI/"
+repository-code: "https://github.com/gabrielctn/ebi-classifier"
+license: MIT
+authors:
+  - family-names: Cretin
+    given-names: Gabriel
+    email: gabriel.cretin@u-pariscite.fr
+    affiliation: "Université Paris Cité and Université de la Réunion, INSERM, EFS, BIGR U1134, DSIMB Bioinformatics Team, F-75015 Paris, France"
+keywords:
+  - erythroblastic island
+  - imaging flow cytometry
+  - deep learning

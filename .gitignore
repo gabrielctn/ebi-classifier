@@ -1,0 +1,37 @@
+# Data: images are not distributed with the code
+/EBI/
+/NOT_EBI/
+/EBI_TEST_SET/
+/NOT_EBI_TEST_SET/
+*.tif
+*.tiff
+
+# Training outputs, checkpoints and logs
+/runs/
+/optuna_studies/
+*.pt
+*.safetensors
+*.out
+/job.sh
+
+# Model weights are published as a release asset (over GitHub's 100 MB limit)
+/web/model/ebi.onnx
+# Reference predictions for the local test images
+/web/dev/reference.json
+
+# Built packages
+*.zip
+
+# Environments, caches, editor and tool settings
+/.venv/
+/.venv-secure/
+/.ebi-runtime/
+/.gradio/
+/.vscode/
+/.claude/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Checksums of superseded packages
+/EBI_Classifier_*2026-11-03*

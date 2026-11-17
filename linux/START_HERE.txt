@@ -1,0 +1,84 @@
+EBI CLASSIFIER FOR LINUX - START HERE
+=====================================
+
+1. Extract the entire ZIP to a writable folder, such as Documents. Keep all
+   the extracted files and folders together.
+2. Open the extracted EBI_Classifier_Linux folder. Double-click
+   EBI_Classifier.desktop (it may be displayed as "EBI Classifier").
+   If your desktop asks, choose "Allow Launching" or "Run".
+3. Keep the terminal window open. The first start prepares the app and can
+   take several minutes. Your browser should open automatically. If it does
+   not, open the local address printed in the terminal window.
+4. When you are finished, close the terminal window to stop the app.
+
+If the desktop launcher will not run: open a terminal in the extracted
+EBI_Classifier_Linux folder and enter:
+
+    ./START_EBI.sh
+
+If the computer says permission is denied, enable "Executable as Program" in
+the file's Properties, or ask IT for help. Some file managers open shell
+scripts as text by default; use the terminal command above in that case.
+
+The package supports 64-bit Intel/AMD and 64-bit ARM Linux computers using
+glibc 2.28 or later, such as Ubuntu 20.04 or later. It uses the CPU. You need
+a browser and approximately 4 GB of free disk space. Python, the model, and
+the packages are included; normal setup and classification work offline.
+Very minimal Linux installations may need standard C/C++ runtime libraries.
+
+HOW TO CLASSIFY
+---------------
+For each sample, provide three separate TIFF files with the same sample ID
+and a channel number in each filename. With the default channel mapping:
+
+    sample001_Ch7.ome.tif   - erythroblasts
+    sample001_Ch11.ome.tif  - macrophages
+    sample001_Ch3.ome.tif   - neutrophils
+
+1. In Channel Mapping, check the channel numbers match your experiment.
+   Choose three different channels. Change them if needed.
+2. Drag all three TIFF files for each sample into "Upload TIFF files".
+3. Click "Run Classification" and wait for the results.
+4. Check the processed sample count. Incomplete triplets are skipped.
+5. Open "View Prediction Details" to inspect the predicted groups and move
+   images between the EBI and NOT_EBI groups if needed.
+6. Download "EBI IDs (.pop)" after reviewing and save it somewhere convenient.
+
+Predictions are a research aid: review them and assess suitability for your
+experiment. The app runs locally and the browser connects to a local address.
+For IT and legal questions, see IT_INFORMATION.md.
+
+TROUBLESHOOTING
+---------------
+- A window reports missing files: extract the entire ZIP again and keep the
+  launcher and the other files together. Do not run from inside the ZIP.
+- The browser did not open: copy the local address printed in the terminal.
+- Setup failed: check that the extracted folder is writable and there is
+  enough free disk space. Some IT-managed systems block bundled applications.
+- A message mentions an unsupported C library or CPU: this package requires
+  glibc 2.28+ and a 64-bit Intel/AMD or ARM Linux system. Alpine Linux uses
+  musl rather than glibc and is not supported by this package.
+- If a problem remains, send the provider a photo of the complete terminal
+  window and your Linux distribution and version.
+
+---------------------------------------------------------------
+CLASSIFICATEUR EBI POUR LINUX - DEMARRAGE RAPIDE
+---------------------------------------------------------------
+
+1. Extrayez tout le ZIP dans un dossier modifiable, par exemple Documents.
+2. Ouvrez le dossier EBI_Classifier_Linux et double-cliquez sur
+   EBI_Classifier.desktop. Si necessaire, autorisez son lancement.
+3. Gardez la fenetre du terminal ouverte. Le premier demarrage peut prendre
+   quelques minutes. Le navigateur devrait s'ouvrir automatiquement.
+4. Fermez le terminal pour quitter l'application.
+
+Si le lanceur ne s'ouvre pas, ouvrez un terminal dans le dossier extrait
+et saisissez : ./START_EBI.sh
+
+Le programme fonctionne hors ligne sur Linux 64 bits Intel/AMD ou ARM avec
+glibc 2.28 ou plus recent. Un navigateur et environ 4 Go libres sont requis.
+Pour chaque echantillon, deposez trois TIFF avec le meme identifiant et les
+canaux appropries. Les valeurs par defaut sont Ch7 pour les erythroblastes,
+Ch11 pour les macrophages et Ch3 pour les neutrophiles. Verifiez les canaux,
+cliquez sur "Run Classification", examinez les resultats, puis telechargez
+le fichier .pop. L'outil est une aide a la recherche.
